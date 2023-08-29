@@ -127,6 +127,7 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         else
         {
             service.SaveProperty(Property);
+            Vibration.Vibrate(3000); //Opgave 3.5
             await Shell.Current.GoToAsync("///propertylist");
         }
     }
