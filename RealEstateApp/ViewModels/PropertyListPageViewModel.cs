@@ -1,4 +1,5 @@
-﻿using RealEstateApp.Models;
+﻿using Microsoft.Maui.Devices.Sensors;
+using RealEstateApp.Models;
 using RealEstateApp.Services;
 using RealEstateApp.Views;
 using System.Collections.ObjectModel;
@@ -8,6 +9,8 @@ using System.Windows.Input;
 namespace RealEstateApp.ViewModels;
 public class PropertyListPageViewModel : BaseViewModel
 {
+    public Position MyPosition { get; set; }
+    public bool SortOnLocation { get; set; }
     public ObservableCollection<PropertyListItem> PropertiesCollection { get; } = new();
 
     private readonly IPropertyService service;
@@ -36,14 +39,41 @@ public class PropertyListPageViewModel : BaseViewModel
         {
             IsBusy = true;
 
+            var location = await new LocationGrabber().GetCurrentLocationAsync();
+            MyPosition = new Position { Lat = location.Latitude, Long = location.Longitude };
+
+            Location myLocation = new Location(MyPosition.Lat, MyPosition.Long);
+
             List<Property> properties = service.GetProperties();
 
             if (PropertiesCollection.Count != 0)
                 PropertiesCollection.Clear();
 
-            foreach (Property property in properties)
-                PropertiesCollection.Add(new PropertyListItem(property));
+            List<PropertyListItem> tempList = new List<PropertyListItem>();
 
+            foreach (Property property in properties)
+            {
+                var propListItem = new PropertyListItem(property);
+
+                var distance = Location.CalculateDistance(new Location((double)property.Latitude, (double)property.Longitude), myLocation, DistanceUnits.Kilometers);
+
+                propListItem.Distance = distance;
+
+                if (SortOnLocation)
+                    tempList.Add(propListItem);
+                else
+                    PropertiesCollection.Add(propListItem);
+
+            }
+
+            if (this.SortOnLocation)
+            {
+                tempList = tempList.OrderBy(p => p.Distance).ToList();
+                foreach (var propertyListItem in tempList)
+                {
+                    PropertiesCollection.Add(propertyListItem);
+                }
+            }
         }
         catch (Exception ex)
         {
@@ -56,6 +86,17 @@ public class PropertyListPageViewModel : BaseViewModel
             IsRefreshing = false;
         }
     }
+
+
+    private Command sortAsyncCommand;
+    public ICommand SortAsyncCommand => sortAsyncCommand ??= new Command(async () => await SortAsync());
+
+    async Task SortAsync()
+    {
+        this.SortOnLocation = !SortOnLocation;
+        await GetPropertiesAsync();
+    }
+
 
 
     private Command goToDetailsCommand;

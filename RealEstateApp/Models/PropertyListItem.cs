@@ -9,6 +9,9 @@ public class PropertyListItem : INotifyPropertyChanged
         Property = property;
     }
 
+    private double _distance;
+    public double Distance { get => _distance; set { _distance = value; OnPropertyChanged(); } }
+
     private Property _property;
 
     public Property Property
