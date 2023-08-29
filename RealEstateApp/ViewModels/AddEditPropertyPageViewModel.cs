@@ -1,6 +1,7 @@
 ﻿using RealEstateApp.Models;
 using RealEstateApp.Services;
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Windows.Input;
 
 namespace RealEstateApp.ViewModels;
@@ -83,6 +84,21 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         Property.Address = $"{marker.Thoroughfare} {marker.SubThoroughfare}, {marker.PostalCode} {marker.Locality}, {marker.CountryName}";
     }
     //Opgave 3.1
+
+    //Opgave 3.3 part 2
+    private Command getCoordsCommand;
+    public ICommand GetCoordsCommand => getCoordsCommand ??= new Command(async () => await GetCoordsFromAddress());
+    private async Task GetCoordsFromAddress()
+    {
+        var address = Property.Address;
+        IEnumerable<Location> locations = await Geocoding.Default.GetLocationsAsync(address);
+
+        var Coords = locations.FirstOrDefault();
+        Property.Longitude = Coords.Longitude;
+        Property.Latitude = Coords.Latitude;
+
+    }
+    //Opgave 3.3 part 2
 
     private Command savePropertyCommand;
     public ICommand SavePropertyCommand => savePropertyCommand ??= new Command(async () => await SaveProperty());

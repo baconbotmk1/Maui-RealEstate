@@ -151,7 +151,7 @@
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                    <Grid ColumnDefinitions="*,*,*">
+                    <Grid ColumnDefinitions="*,*,*,*">
                         <Label Text="{Binding Property.Latitude, StringFormat='{0:F4}'}" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="0"/>
                         <Label Text="{Binding Property.Longitude, StringFormat='{0:F4}'}" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="1"/>
                         <Button Grid.Column="2" Command="{Binding GetCurrentLocationCommand}">
@@ -159,6 +159,14 @@
                                 <FontImageSource
                                     FontFamily="FA-solid"
                                     Glyph="{Static fa:IconFont.Thumbtack}"
+                                    Size="16" />
+                            </Button.ImageSource>
+                        </Button>
+                        <Button Grid.Column="3" Command="{Binding GetCoordsCommand}">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="FA-solid"
+                                    Glyph="{Static fa:IconFont.Home}"
                                     Size="16" />
                             </Button.ImageSource>
                         </Button>
