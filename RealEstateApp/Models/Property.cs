@@ -13,7 +13,16 @@ namespace RealEstateApp.Models
         }
 
         public string Id { get; set; }
-        public string Address { get; set; }
+        private string _address;
+        public string Address
+        {
+            get => _address;
+            set
+            {
+                _address = value;
+                OnPropertyChanged();
+            }
+        }
         public int? Price { get; set; }
         public string Description { get; set; }
         public int? Beds { get; set; }

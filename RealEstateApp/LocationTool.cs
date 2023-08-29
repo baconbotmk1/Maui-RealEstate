@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp
 {
-    public class LocationGrabber
+    public class LocationTool
     {
         public async Task<Location> GetCachedLocation()
         {
@@ -71,6 +71,20 @@ namespace RealEstateApp
         {
             if (_isCheckingLocation && _cancelTokenSource != null && _cancelTokenSource.IsCancellationRequested == false)
                 _cancelTokenSource.Cancel();
+        }
+
+        public async Task<Placemark> GetGeocodeReverseData(double latitude, double longitude)
+        {
+            IEnumerable<Placemark> placemarks = await Geocoding.Default.GetPlacemarksAsync(latitude, longitude);
+
+            Placemark placemark = placemarks?.FirstOrDefault();
+
+            if (placemark != null)
+            {
+                return placemark;
+            }
+
+            return null;
         }
     }
 }

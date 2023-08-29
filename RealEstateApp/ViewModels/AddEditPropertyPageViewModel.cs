@@ -75,9 +75,12 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     {
         GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
 
-        Location location = await Geolocation.Default.GetLocationAsync(request);
+        var location = await Geolocation.Default.GetLocationAsync(request);
         Property.Longitude = location.Longitude;
         Property.Latitude = location.Latitude;
+
+        var marker = await new LocationTool().GetGeocodeReverseData(location.Latitude, location.Longitude);
+        Property.Address = $"{marker.Thoroughfare} {marker.SubThoroughfare}, {marker.PostalCode} {marker.Locality}, {marker.CountryName}";
     }
     //Opgave 3.1
 

@@ -39,7 +39,7 @@ public class PropertyListPageViewModel : BaseViewModel
         {
             IsBusy = true;
 
-            var location = await new LocationGrabber().GetCurrentLocationAsync();
+            var location = await new LocationTool().GetCurrentLocationAsync();
             MyPosition = new Position { Lat = location.Latitude, Long = location.Longitude };
 
             Location myLocation = new Location(MyPosition.Lat, MyPosition.Long);
