@@ -10,10 +10,12 @@
     x:DataType="vm:PropertyListPageViewModel">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" />
+        <ToolbarItem Text="Add"  Command="{Binding GoToAddPropertyCommand}"/>
     </ContentPage.ToolbarItems>
 
-    <RefreshView>
+    <RefreshView
+        Command="{Binding GetPropertiesCommand}"
+        IsRefreshing="{Binding IsRefreshing}">
 
         <CollectionView
             BackgroundColor="LightGray"
