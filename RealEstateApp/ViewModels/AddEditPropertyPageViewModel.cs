@@ -19,6 +19,7 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     }
 
     public string Mode { get; set; }
+    public bool HasNetworkAccess { get; set; }
 
     #region PROPERTIES
     public ObservableCollection<Agent> Agents { get; }
@@ -74,14 +75,18 @@ public class AddEditPropertyPageViewModel : BaseViewModel
 
     private async Task GetCurrentLocationAsync()
     {
-        GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+        await CheckNetworkAccess();
+        if (HasNetworkAccess)
+        {
+            GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
 
-        var location = await Geolocation.Default.GetLocationAsync(request);
-        Property.Longitude = location.Longitude;
-        Property.Latitude = location.Latitude;
+            var location = await Geolocation.Default.GetLocationAsync(request);
+            Property.Longitude = location.Longitude;
+            Property.Latitude = location.Latitude;
 
-        var marker = await new LocationTool().GetGeocodeReverseData(location.Latitude, location.Longitude);
-        Property.Address = $"{marker.Thoroughfare} {marker.SubThoroughfare}, {marker.PostalCode} {marker.Locality}, {marker.CountryName}";
+            var marker = await new LocationTool().GetGeocodeReverseData(location.Latitude, location.Longitude);
+            Property.Address = $"{marker.Thoroughfare} {marker.SubThoroughfare}, {marker.PostalCode} {marker.Locality}, {marker.CountryName}";
+        }
     }
     //Opgave 3.1
 
@@ -90,20 +95,23 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     public ICommand GetCoordsCommand => getCoordsCommand ??= new Command(async () => await GetCoordsFromAddress());
     private async Task GetCoordsFromAddress()
     {
-        var address = Property.Address;
-        if (address != null)
+        await CheckNetworkAccess();
+        if (HasNetworkAccess)
         {
-            IEnumerable<Location> locations = await Geocoding.Default.GetLocationsAsync(address);
+            var address = Property.Address;
+            if (address != null)
+            {
+                IEnumerable<Location> locations = await Geocoding.Default.GetLocationsAsync(address);
 
-            var Coords = locations.FirstOrDefault();
-            Property.Longitude = Coords.Longitude;
-            Property.Latitude = Coords.Latitude;
+                var Coords = locations.FirstOrDefault();
+                Property.Longitude = Coords.Longitude;
+                Property.Latitude = Coords.Latitude;
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Error happened", "Address field empty", "Ok");
+            }
         }
-        else
-        {
-            await App.Current.MainPage.DisplayAlert("Error happened", "Address field empty", "Ok");
-        }
-
     }
     //Opgave 3.3 part 2
 
@@ -135,4 +143,23 @@ public class AddEditPropertyPageViewModel : BaseViewModel
 
     private Command cancelSaveCommand;
     public ICommand CancelSaveCommand => cancelSaveCommand ??= new Command(async () => await Shell.Current.GoToAsync(".."));
+
+
+    public async Task CheckNetworkAccess()
+    {
+        NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+
+        if (accessType == NetworkAccess.Internet)
+        {
+            HasNetworkAccess = true;
+            OnPropertyChanged(nameof(HasNetworkAccess));
+
+            return;
+        }
+        HasNetworkAccess = false;
+        await Application.Current.MainPage.DisplayAlert("Error", "Connection to internet is not available!", "OK");
+
+        OnPropertyChanged(nameof(HasNetworkAccess));
+    }
 }
+
