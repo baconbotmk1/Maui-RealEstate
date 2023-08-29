@@ -67,6 +67,19 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     }
     #endregion
 
+    //Opgave 3.1
+    private Command getCurrentLocation;
+    public ICommand GetCurrentLocationCommand => getCurrentLocation ??= new Command(async () => await GetCurrentLocationAsync());
+
+    private async Task GetCurrentLocationAsync()
+    {
+        GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+
+        Location location = await Geolocation.Default.GetLocationAsync(request);
+        Property.Longitude = location.Longitude;
+        Property.Latitude = location.Latitude;
+    }
+    //Opgave 3.1
 
     private Command savePropertyCommand;
     public ICommand SavePropertyCommand => savePropertyCommand ??= new Command(async () => await SaveProperty());

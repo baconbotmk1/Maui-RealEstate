@@ -9,4 +9,5 @@ public partial class AddEditPropertyPage : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
 	}
+
 }

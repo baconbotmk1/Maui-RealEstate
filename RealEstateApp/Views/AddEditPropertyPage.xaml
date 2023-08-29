@@ -140,6 +140,29 @@
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding Agents}"
                         SelectedItem="{Binding SelectedAgent}" />
+
+
+                    <Label FontSize="Medium">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="FA-solid" Text="{Static fa:IconFont.LocationArrow}" />
+                                <Span Text=" " />
+                                <Span Text="Location*" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Grid ColumnDefinitions="*,*,*">
+                        <Label Text="{Binding Property.Latitude, StringFormat='{0:F4}'}" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="0"/>
+                        <Label Text="{Binding Property.Longitude, StringFormat='{0:F4}'}" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="1"/>
+                        <Button Grid.Column="2" Command="{Binding GetCurrentLocationCommand}">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="FA-solid"
+                                    Glyph="{Static fa:IconFont.Thumbtack}"
+                                    Size="16" />
+                            </Button.ImageSource>
+                        </Button>
+                    </Grid>
                 </StackLayout>
             </ScrollView>
         </StackLayout>
