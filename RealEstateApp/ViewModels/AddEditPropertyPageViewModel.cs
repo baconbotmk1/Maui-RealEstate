@@ -91,11 +91,18 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     private async Task GetCoordsFromAddress()
     {
         var address = Property.Address;
-        IEnumerable<Location> locations = await Geocoding.Default.GetLocationsAsync(address);
+        if (address != null)
+        {
+            IEnumerable<Location> locations = await Geocoding.Default.GetLocationsAsync(address);
 
-        var Coords = locations.FirstOrDefault();
-        Property.Longitude = Coords.Longitude;
-        Property.Latitude = Coords.Latitude;
+            var Coords = locations.FirstOrDefault();
+            Property.Longitude = Coords.Longitude;
+            Property.Latitude = Coords.Latitude;
+        }
+        else
+        {
+            await App.Current.MainPage.DisplayAlert("Error happened", "Address field empty", "Ok");
+        }
 
     }
     //Opgave 3.3 part 2
@@ -106,7 +113,7 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     {
         if (IsValid() == false)
         {
-           StatusMessage = "Please fill in all required fields";
+            StatusMessage = "Please fill in all required fields";
             StatusColor = Colors.Red;
         }
         else
