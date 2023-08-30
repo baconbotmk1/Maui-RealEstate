@@ -3,10 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RealEstateApp.Views.BarometerPage"
              xmlns:vm="clr-namespace:RealEstateApp.ViewModels"
+             xmlns:models="clr-namespace:RealEstateApp.Models"
              Title="BarometerPage"
              x:DataType="vm:BarometerPageViewModel">
     <Grid RowDefinitions="100, *, 50">
         <Label Text="{Binding CurrentAlt, StringFormat='Current altitude: {0:F2} m'}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="24"/>
+        <StackLayout Grid.Row="1">
+            <Entry Text="{Binding Label, Mode=TwoWay}"/>
+            <Button Command="{Binding SaveBarometerCommand}" Text="Save"/>
+            <CollectionView
+                ItemsSource="{Binding BarometerCollection}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:BarometerMeasurement">
+                        <Border>
+                            <Label Text="{Binding Display}"/>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
         <Label Text="{Binding CurrentPressure, StringFormat='Current pressure: {0:F2} hPa'}" Grid.Row="2" HorizontalOptions="Center" VerticalOptions="Center"/>
     </Grid>
 </ContentPage>
