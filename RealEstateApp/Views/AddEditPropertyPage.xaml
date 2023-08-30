@@ -27,7 +27,7 @@
             <Label
                 BackgroundColor="{Binding BatColor}"
                 Text="{Binding BatMsg}" />
-            
+
             <ScrollView VerticalOptions="FillAndExpand">
                 <StackLayout Padding="15" Spacing="20">
 
@@ -177,6 +177,26 @@
                                     Size="16" />
                             </Button.ImageSource>
                         </Button>
+                    </Grid>
+                    <Grid ColumnDefinitions="*,auto" RowDefinitions="*,*">
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Static fa:IconFont.Compass}" FontFamily="FA-solid" FontSize="16"/>
+                                    <Span Text=" " />
+                                    <Span Text="Aspect"  FontSize="16"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Button Command="{Binding GoToCompassCommand}" Grid.Row="1" Grid.Column="1">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="FA-solid"
+                                    Glyph="{Static fa:IconFont.DraftingCompass}"
+                                    Size="16" />
+                            </Button.ImageSource>
+                        </Button>
+                        <Entry Text="{Binding Property.Aspect}" Grid.Row="1"/>
                     </Grid>
                 </StackLayout>
             </ScrollView>

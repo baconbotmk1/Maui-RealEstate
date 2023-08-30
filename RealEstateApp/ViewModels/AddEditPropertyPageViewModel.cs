@@ -1,5 +1,6 @@
 ﻿using RealEstateApp.Models;
 using RealEstateApp.Services;
+using RealEstateApp.Views;
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Windows.Input;
@@ -189,6 +190,11 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     }
     private Command cancelSaveCommand;
     public ICommand CancelSaveCommand => cancelSaveCommand ??= new Command(async () => { StopVibrate(); await Shell.Current.GoToAsync(".."); });
+    private Command goToCompassCommand;
+    public ICommand GoToCompassCommand => goToCompassCommand ??= new Command(async () => await Shell.Current.GoToAsync(nameof(CompassPage), true, new Dictionary<string, object>
+        {
+            {"property", Property }
+        }));
 
 
     //Opgave 3.5
@@ -235,5 +241,6 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         FlashToggled = !FlashToggled;
     }
 
+     
 }
 
