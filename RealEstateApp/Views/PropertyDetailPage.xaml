@@ -73,12 +73,16 @@
                 Grid.Row="4"
                 FontSize="14"
                 Text="{Binding Property.LandSize, StringFormat='Land size: {0} &#x33a1;'}" />
-            <Label
-                Grid.Row="5"
-                Margin="0,20,0,0"
-                FontAttributes="Bold"
-                FontSize="14"
-                Text="Description:" />
+            <Grid ColumnDefinitions="auto,*" Grid.Row="5">
+                <Label
+                    Margin="0,20,0,0"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="Description:" VerticalOptions="Center"/>
+
+                <Button Command="{Binding PlayTTSComand}" IsVisible="{Binding ViewPlay}" FontFamily="FA-solid" Text="{Static fa:IconFont.Play}" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Button Command="{Binding StopTTSComand}" IsVisible="{Binding ViewStop}" FontFamily="FA-solid" Text="{Static fa:IconFont.Stop}" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+            </Grid>
             <Label
                 Grid.Row="6"
                 Margin="0,0,0,20"

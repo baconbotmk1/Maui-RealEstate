@@ -11,8 +11,14 @@
   <uses-feature android:name="android.hardware.location.network" android:required="false" />
   <!--Because above api 29 VV-->
   <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+  <!-- Opgave 3.1 -->
 
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.VIBRATE" />
-  <!-- Opgave 3.1 -->
+
+  <queries>
+    <intent>
+      <action android:name="android.intent.action.TTS_SERVICE" />
+    </intent>
+  </queries>
 </manifest>
