@@ -13,6 +13,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding CancelSaveCommand}" Text="Cancel" />
         <ToolbarItem Command="{Binding SavePropertyCommand}" Text="Save" />
+        <ToolbarItem Command="{Binding FlashToggleCommand}" Text="{Binding FlashToggled, StringFormat='Toggle flash ({0})'}" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>

@@ -177,5 +177,21 @@ public class AddEditPropertyPageViewModel : BaseViewModel
 
         OnPropertyChanged(nameof(HasNetworkAccess));
     }
+
+    private bool flashToggled;
+    public bool FlashToggled { get => flashToggled; set { SetProperty(ref flashToggled, value); } }
+
+
+    private Command flashToggleCommand;
+    public ICommand FlashToggleCommand => flashToggleCommand ??= new Command(async () => await ToggleFlash());
+    async Task ToggleFlash()
+    {
+        if (!FlashToggled)
+            await Flashlight.Default.TurnOnAsync();
+        else
+            await Flashlight.Default.TurnOffAsync();
+        FlashToggled = !FlashToggled;
+    }
+
 }
 
