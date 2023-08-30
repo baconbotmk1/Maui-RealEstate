@@ -86,6 +86,9 @@
 	  <MauiXaml Update="Views\AddEditPropertyPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\BarometerPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\CompassPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

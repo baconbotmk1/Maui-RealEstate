@@ -33,6 +33,9 @@ public static class MauiProgram
         builder.Services.AddTransient<CompassPage>();
         builder.Services.AddTransient<CompassPageViewModel>();
 
+        builder.Services.AddTransient<BarometerPage>();
+        builder.Services.AddTransient<BarometerPageViewModel>();
+
 
 #if DEBUG
         builder.Logging.AddDebug();

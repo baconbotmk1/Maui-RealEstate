@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RealEstateApp.Views.BarometerPage"
+             xmlns:vm="clr-namespace:RealEstateApp.ViewModels"
+             Title="BarometerPage"
+             x:DataType="vm:BarometerPageViewModel">
+    <Grid RowDefinitions="100, *, 50">
+        <Label Text="{Binding CurrentAlt, StringFormat='Current altitude: {0:F2} m'}" HorizontalOptions="Center" VerticalOptions="Center" FontSize="24"/>
+        <Label Text="{Binding CurrentPressure, StringFormat='Current pressure: {0:F2} hPa'}" Grid.Row="2" HorizontalOptions="Center" VerticalOptions="Center"/>
+    </Grid>
+</ContentPage>

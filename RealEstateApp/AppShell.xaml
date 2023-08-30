@@ -16,5 +16,8 @@
         ContentTemplate="{DataTemplate views:AboutPage}"
         Route="about" />
 
-
+    <ShellContent
+        Title="Height calculator"
+        ContentTemplate="{DataTemplate views:BarometerPage}"
+        Route="Barometer" />
 </Shell>
