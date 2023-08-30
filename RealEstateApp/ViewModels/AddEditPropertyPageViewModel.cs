@@ -16,6 +16,12 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     {
         this.service = service;
         Agents = new ObservableCollection<Agent>(service.GetAgents());
+        Battery.Default.BatteryInfoChanged += BatChanged;
+    }
+
+    private void BatChanged(object sender, BatteryInfoChangedEventArgs e)
+    {
+        CheckBat();
     }
 
     public string Mode { get; set; }
@@ -67,7 +73,43 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         get { return statusColor; }
         set { SetProperty(ref statusColor, value); }
     }
+
+
+    string batMsg;
+    public string BatMsg
+    {
+        get { return batMsg; }
+        set { SetProperty(ref batMsg, value); }
+    }
+
+    Color batColor;
+    public Color BatColor
+    {
+        get { return batColor; }
+        set { SetProperty(ref batColor, value); }
+    }
     #endregion
+
+    private void CheckBat()
+    {
+        if (Battery.EnergySaverStatus == EnergySaverStatus.On)
+        {
+            BatColor = Color.FromArgb("00ff00");
+        }
+        else if (Battery.State == BatteryState.Charging)
+        {
+            BatColor = Color.FromArgb("ffff00");
+        }
+        else if (Battery.ChargeLevel <= 0.2) // Rød baggrund
+        {
+            BatColor = Color.FromArgb("ff0000");
+        }
+        else
+        {
+            BatColor = Color.FromArgb("daffda");
+        }
+        BatMsg = $"{(int)(Battery.ChargeLevel * 100)}%";
+    }
 
     //Opgave 3.1
     private Command getCurrentLocation;

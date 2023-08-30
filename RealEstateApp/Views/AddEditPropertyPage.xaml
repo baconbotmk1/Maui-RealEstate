@@ -22,6 +22,12 @@
                 BackgroundColor="{Binding StatusColor}"
                 IsVisible="{Binding StatusMessage, Converter={converters:StringBoolConverter}}"
                 Text="{Binding StatusMessage}" />
+
+
+            <Label
+                BackgroundColor="{Binding BatColor}"
+                Text="{Binding BatMsg}" />
+            
             <ScrollView VerticalOptions="FillAndExpand">
                 <StackLayout Padding="15" Spacing="20">
 
