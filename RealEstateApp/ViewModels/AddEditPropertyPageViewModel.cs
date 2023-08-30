@@ -115,6 +115,7 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     }
     //Opgave 3.3 part 2
 
+
     private Command savePropertyCommand;
     public ICommand SavePropertyCommand => savePropertyCommand ??= new Command(async () => await SaveProperty());
     private async Task SaveProperty()
@@ -127,7 +128,6 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         else
         {
             service.SaveProperty(Property);
-            Vibration.Vibrate(3000); //Opgave 3.5
             await Shell.Current.GoToAsync("///propertylist");
         }
     }
@@ -138,13 +138,28 @@ public class AddEditPropertyPageViewModel : BaseViewModel
             || Property.Beds == null
             || Property.Price == null
             || Property.AgentId == null)
+        {
+            StartVibrate(5.0);
             return false;
+
+        }
         return true;
     }
-
     private Command cancelSaveCommand;
-    public ICommand CancelSaveCommand => cancelSaveCommand ??= new Command(async () => await Shell.Current.GoToAsync(".."));
+    public ICommand CancelSaveCommand => cancelSaveCommand ??= new Command(async () => { StopVibrate(); await Shell.Current.GoToAsync(".."); });
 
+
+    //Opgave 3.5
+
+    public void StartVibrate(double secondsToVibrate)
+    {
+        Vibration.Default.Vibrate(secondsToVibrate * 1000);
+    }
+    public void StopVibrate()
+    {
+        Vibration.Default.Cancel();
+    }
+    //Opgave 3.5
 
     public async Task CheckNetworkAccess()
     {
