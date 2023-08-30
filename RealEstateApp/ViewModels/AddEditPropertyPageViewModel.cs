@@ -80,8 +80,10 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         Property.Longitude = location.Longitude;
         Property.Latitude = location.Latitude;
 
+        //Opgave 3.3 part 1
         var marker = await new LocationTool().GetGeocodeReverseData(location.Latitude, location.Longitude);
         Property.Address = $"{marker.Thoroughfare} {marker.SubThoroughfare}, {marker.PostalCode} {marker.Locality}, {marker.CountryName}";
+        //Opgave 3.3 part 1
     }
     //Opgave 3.1
 
