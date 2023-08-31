@@ -183,4 +183,28 @@ public class PropertyDetailPageViewModel : BaseViewModel
         Uri uri = new Uri(Property.NeighbourhoodUrl);
         await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
     }
+    private Command shareCommand;
+    public ICommand ShareCommand => shareCommand ??= new Command(async () => await HandleShareCommand());
+    private async Task HandleShareCommand()
+    {
+        var pUrl = Property.NeighbourhoodUrl;
+        var pSubject = "A property you may be interested in";
+        var pText = $"The address is: {Property.Address}, there are {Property.Beds} bedrooms and it's only ${Property.Price}";
+        var pTitle = "Share property";
+
+        var newShareReq = new ShareTextRequest() { Uri = pUrl, Subject = pSubject, Text = pText, Title = pTitle };
+        await Share.Default.RequestAsync(newShareReq);
+    }
+    private Command shareFileCommand;
+    public ICommand ShareFileCommand => shareFileCommand ??= new Command(async () => await HandleShareFileCommand());
+    private async Task HandleShareFileCommand()
+    {
+        var pTitle = "Share property";
+
+        var envPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        var pFilePath = Path.Combine(envPath, "IS-tema.pdf");
+
+        var newShareReq = new ShareFileRequest() { Title = pTitle, File = new ShareFile(pFilePath) };
+        await Share.Default.RequestAsync(newShareReq);
+    }
 }
