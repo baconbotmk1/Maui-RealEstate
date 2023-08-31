@@ -15,7 +15,7 @@
     <ScrollView>
         <Grid
             Padding="15"
-            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
             RowSpacing="10">
             <Image
                 Grid.Row="0"
@@ -88,12 +88,79 @@
                 Margin="0,0,0,20"
                 FontSize="14"
                 Text="{Binding Property.Description}" />
-            <Label
+
+            <Grid
                 Grid.Row="7"
+                RowDefinitions="Auto,Auto">
+                <Label
+                    Grid.Row="0"
+                    FontFamily="FA-solid"
+                    FontSize="16"
+                    Text="Vendor:"
+                    VerticalOptions="Center" />
+                <Grid Grid.Row="1"
+                    RowDefinitions="Auto,Auto,Auto"
+                    ColumnDefinitions="auto, auto"
+                      ColumnSpacing="10">
+
+                    <Label
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        FontFamily="FA-solid"
+                        FontSize="16"
+                        Text="{Static fa:IconFont.User}"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        FontSize="16"
+                        Text="{Binding Property.Vendor.FullName}" />
+
+                    <Label
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        FontFamily="FA-solid"
+                        FontSize="16"
+                        Text="{Static fa:IconFont.Envelope}"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        FontSize="16"
+                        TextColor="RoyalBlue"
+                        TextDecorations="Underline"
+                        Text="{Binding Property.Vendor.Email}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding EmailClickedCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label> 
+
+                    <Label
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        FontFamily="FA-solid"
+                        FontSize="16"
+                        Text="{Static fa:IconFont.Phone}"
+                        VerticalOptions="Center"/>
+                    <Label
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        FontSize="16"
+                        Text="{Binding Property.Vendor.Phone}"
+                        TextColor="RoyalBlue"
+                        TextDecorations="Underline">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PhoneClickedComand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+            </Grid>
+            <Label
+                Grid.Row="8"
                 FontAttributes="Bold"
                 FontSize="14"
                 Text="Listed by:" />
-            <Grid Grid.Row="8" ColumnDefinitions="auto, *">
+            <Grid Grid.Row="9" ColumnDefinitions="auto, *">
                 <Image
                     Grid.Column="0"
                     Source="{Binding Agent.ImageUrl}"

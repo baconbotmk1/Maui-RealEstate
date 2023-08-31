@@ -75,4 +75,69 @@ public class PropertyDetailPageViewModel : BaseViewModel
         ViewPlay = true;
     }
 
+    private Command phoneClickedComand;
+    public ICommand PhoneClickedComand => phoneClickedComand ??= new Command(async () => await HandlePhoneClicked());
+    public async Task HandlePhoneClicked()
+    {
+        string action = await App.Current.MainPage.DisplayActionSheet(Property.Vendor.Phone, "Cancel", null, "Call", "Sms");
+
+        switch (action)
+        {
+            case "Call":
+                CallActionHandler();
+                break;
+            case "Sms":
+                await SmsActionHandler();
+                break;
+        }
+    }
+    private async Task SmsActionHandler()
+    {
+        if (Sms.Default.IsComposeSupported)
+        {
+            string[] recipients = new[] { "12345678" };
+            string text = $"Hello {Property.Vendor.FirstName}, I'm writing regarting {Property.Address}...";
+
+            var message = new SmsMessage(text, recipients);
+
+            await Sms.Default.ComposeAsync(message);
+        }
+    }
+    private void CallActionHandler()
+    {
+        if (PhoneDialer.Default.IsSupported)
+        {
+            PhoneDialer.Default.Open("12345678");
+        }
+    }
+
+
+    private Command emailClickedCommand;
+    public ICommand EmailClickedCommand => emailClickedCommand ??= new Command(async () => await HandleEmailClicked());
+    public async Task HandleEmailClicked()
+    {
+        if (Email.Default.IsComposeSupported)
+        {
+
+            string subject = $"Hello {Property.Vendor.FullName}!";
+            string body = $"Regarding {Property.Address}...";
+            string[] recipients = new[] { Property.Vendor.Email };
+
+            var message = new EmailMessage
+            {
+                Subject = subject,
+                Body = body,
+                BodyFormat = EmailBodyFormat.PlainText,
+                To = new List<string>(recipients)
+            };
+
+            var folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var attachmentFilePath = Path.Combine(folder, "Prop.txt");
+            File.WriteAllText(attachmentFilePath, Property.Address);
+
+            message.Attachments.Add(new EmailAttachment(attachmentFilePath));
+
+            await Email.Default.ComposeAsync(message);
+        }
+    }
 }

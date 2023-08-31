@@ -39,6 +39,8 @@ namespace RealEstateApp.Models
         public double? Longitude { get { return _long; } set { _long = value; OnPropertyChanged(); } }
         private string _aspect;
         public string Aspect { get => _aspect; set { _aspect = value; OnPropertyChanged(); } }
+        public Vendor Vendor { get; set; }
+        public string NeighbourhoodUrl { get; set; }
 
 
         public string MainImageUrl => ImageUrls?.FirstOrDefault() ?? GlobalSettings.Instance.NoImageUrl;
