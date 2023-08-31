@@ -9,8 +9,22 @@ namespace RealEstateApp.Repositories
         {
             LoadProperties();
             LoadAgents();
+            LoadFiles();
         }
+        private async Task LoadFiles()
+        {
+            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var pdfPath = Path.Combine(documents, "IS-tema.pdf");
 
+            using (var stream = await FileSystem.OpenAppPackageFileAsync("IS-tema.pdf"))
+            {
+                using (var file = File.OpenWrite(pdfPath))
+                {
+                    stream.CopyTo(file);
+                }
+            }
+
+        }
         private List<Agent> _agents;
         private List<Property> _properties;
 

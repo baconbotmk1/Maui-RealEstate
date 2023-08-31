@@ -176,4 +176,11 @@ public class PropertyDetailPageViewModel : BaseViewModel
             // No map application available to open
         }
     }
+    private Command openLinkCommand;
+    public ICommand OpenLinkCommand => openLinkCommand ??= new Command(async () => await HandleOpenLinkCommand());
+    private async Task HandleOpenLinkCommand()
+    {
+        Uri uri = new Uri(Property.NeighbourhoodUrl);
+        await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+    }
 }

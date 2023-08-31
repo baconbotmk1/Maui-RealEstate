@@ -32,7 +32,7 @@
             <Grid
                 Grid.Row="2"
                 RowDefinitions="*,*"
-                ColumnDefinitions="*,*"
+                ColumnDefinitions="*,*,*"
                 ColumnSpacing="20">
                 
                 <Label
@@ -43,6 +43,7 @@
                     Grid.ColumnSpan="2"/>
                 <Button Command="{Binding OpenMapCommand}" Grid.Column="0" FontFamily="FA-solid" Text="{Static fa:IconFont.MapMarkedAlt}" Grid.Row="1"/>
                 <Button Command="{Binding OpenMapDirectionCommand}" Grid.Column="1" FontFamily="FA-solid" Text="{Static fa:IconFont.Directions}" Grid.Row="1"/>
+                <Button Command="{Binding OpenLinkCommand}" Grid.Column="2" FontFamily="FA-solid" Text="{Static fa:IconFont.Link}" Grid.Row="1"/>
 
             </Grid>
             <Grid
