@@ -29,11 +29,22 @@
                 FontSize="16"
                 LineBreakMode="NoWrap"
                 Text="{Binding Property.Price, StringFormat='{0:C0}'}" />
-            <Label
+            <Grid
                 Grid.Row="2"
-                FontSize="16"
-                LineBreakMode="NoWrap"
-                Text="{Binding Property.Address}" />
+                RowDefinitions="*,*"
+                ColumnDefinitions="*,*"
+                ColumnSpacing="20">
+                
+                <Label
+                    FontSize="16"
+                    LineBreakMode="NoWrap"
+                    Text="{Binding Property.Address}" 
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"/>
+                <Button Command="{Binding OpenMapCommand}" Grid.Column="0" FontFamily="FA-solid" Text="{Static fa:IconFont.MapMarkedAlt}" Grid.Row="1"/>
+                <Button Command="{Binding OpenMapDirectionCommand}" Grid.Column="1" FontFamily="FA-solid" Text="{Static fa:IconFont.Directions}" Grid.Row="1"/>
+
+            </Grid>
             <Grid
                 Grid.Row="3"
                 ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
@@ -133,7 +144,7 @@
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding EmailClickedCommand}"/>
                         </Label.GestureRecognizers>
-                    </Label> 
+                    </Label>
 
                     <Label
                         Grid.Column="0"

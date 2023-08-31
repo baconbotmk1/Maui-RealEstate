@@ -140,4 +140,40 @@ public class PropertyDetailPageViewModel : BaseViewModel
             await Email.Default.ComposeAsync(message);
         }
     }
+
+    private Command openMapCommand;
+    public ICommand OpenMapCommand => openMapCommand ??= new Command(async () => await HandleOpenMapCommand());
+    private async Task HandleOpenMapCommand()
+    {
+        var location = new Location((double)Property.Latitude, (double)Property.Longitude);
+
+        try
+        {
+            await Map.Default.OpenAsync(location);
+        }
+        catch (Exception ex)
+        {
+            // No map application available to open
+        }
+    }
+    private Command openMapDirectionCommand;
+    public ICommand OpenMapDirectionCommand => openMapDirectionCommand ??= new Command(async () => await HandleOpenMapDirectionCommand());
+    private async Task HandleOpenMapDirectionCommand()
+    {
+        var marker = await new LocationTool().GetGeocodeReverseData((double)Property.Latitude, (double)Property.Longitude);
+
+        var options = new MapLaunchOptions
+        {
+            NavigationMode = NavigationMode.Driving
+        };
+
+        try
+        {
+            await Map.Default.OpenAsync(marker, options);
+        }
+        catch (Exception ex)
+        {
+            // No map application available to open
+        }
+    }
 }
