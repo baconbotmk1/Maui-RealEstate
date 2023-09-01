@@ -1,6 +1,7 @@
 ﻿using RealEstateApp.Models;
 using RealEstateApp.Services;
 using RealEstateApp.Views;
+using System.Text.Json;
 using System.Windows.Input;
 
 namespace RealEstateApp.ViewModels;
@@ -95,7 +96,7 @@ public class PropertyDetailPageViewModel : BaseViewModel
     {
         if (Sms.Default.IsComposeSupported)
         {
-            string[] recipients = new[] { "12345678" };
+            string[] recipients = new[] { Property.Vendor.Phone };
             string text = $"Hello {Property.Vendor.FirstName}, I'm writing regarting {Property.Address}...";
 
             var message = new SmsMessage(text, recipients);
@@ -107,7 +108,7 @@ public class PropertyDetailPageViewModel : BaseViewModel
     {
         if (PhoneDialer.Default.IsSupported)
         {
-            PhoneDialer.Default.Open("12345678");
+            PhoneDialer.Default.Open(Property.Vendor.Phone);
         }
     }
 
@@ -206,5 +207,16 @@ public class PropertyDetailPageViewModel : BaseViewModel
 
         var newShareReq = new ShareFileRequest() { Title = pTitle, File = new ShareFile(pFilePath) };
         await Share.Default.RequestAsync(newShareReq);
+    }
+
+    private Command copyToClipCommand;
+    public ICommand CopyToClipCommand => copyToClipCommand ??= new Command(async () => await HandleCopyToClipboard());
+    private async Task HandleCopyToClipboard()
+    {
+        string jsonString = JsonSerializer.Serialize(Property);
+
+          
+
+        await Clipboard.Default.SetTextAsync(jsonString);
     }
 }

@@ -23,7 +23,7 @@
                 Aspect="AspectFill"
                 HeightRequest="225"
                 Source="{Binding Property.MainImageUrl}" />
-            <Grid Grid.Row="1" ColumnDefinitions="*,auto,auto">
+            <Grid Grid.Row="1" ColumnDefinitions="*,auto,auto, auto">
                 <Label
                 Grid.Column="0"
                 FontAttributes="Bold"
@@ -32,6 +32,7 @@
                 Text="{Binding Property.Price, StringFormat='{0:C0}'}" />
                 <Button Command="{Binding ShareCommand}" Grid.Column="1" FontFamily="FA-solid" Text="{Static fa:IconFont.ShareAlt}"/>
                 <Button Command="{Binding ShareFileCommand}" Grid.Column="2" FontFamily="FA-solid" Text="{Static fa:IconFont.ShareSquare}"/>
+                <Button Command="{Binding CopyToClipCommand}" Grid.Column="3" FontFamily="FA-solid" Text="{Static fa:IconFont.Clipboard}"/>
 
             </Grid>
             <Grid
